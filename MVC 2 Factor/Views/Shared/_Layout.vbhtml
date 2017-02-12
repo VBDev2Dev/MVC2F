@@ -4,9 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/themes/base/css")
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -17,7 +20,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", New With { .area = "" }, New With { .class = "navbar-brand" })
+                @Html.ActionLink("Application name", "Index", "Home", New With {.area = ""}, New With {.class = "navbar-brand"})
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -30,15 +33,29 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
-        <hr />
+        <div class="clearfix">
+
+            <div class="modal fade" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div id="pleaseWaitDialogHeader" class="modal-header">
+                            <h1>Processing...</h1>
+                        </div>
+                        <div class="modal-body">
+                            <img src="~/Content/Images/ajax-loader.gif" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+        </div>
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required:=False)
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/SiteScripts")
 </body>
 </html>

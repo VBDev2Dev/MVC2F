@@ -203,11 +203,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
+    <Compile Include="App_Start\GoogleAuthProvider.vb" />
     <Compile Include="App_Start\IdentityConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="App_Start\Startup.Auth.vb" />
     <Compile Include="Controllers\AccountController.vb" />
     <Compile Include="Controllers\ManageController.vb" />
+    <Compile Include="Extensions.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,6 +247,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -325,6 +328,10 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\SiteScripts\AlertAnimations.js" />
+    <Content Include="Scripts\SiteScripts\Dates.js" />
+    <Content Include="Scripts\SiteScripts\Inputs.js" />
+    <Content Include="Scripts\SiteScripts\WaitDialog.js" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.vbhtml" />
     <Content Include="Views\Account\ConfirmEmail.vbhtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.vbhtml" />
@@ -345,8 +352,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.vbhtml" />
     <Content Include="Views\Shared\Lockout.vbhtml" />
     <Content Include="Views\Shared\_LoginPartial.vbhtml" />
+    <Content Include="Views\Shared\VerifyGoogleCode.vbhtml" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Views\Manage\EnableGoogleAuthenticator.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -32,6 +32,19 @@ Public Class ApplicationUserManager
         MyBase.New(store)
     End Sub
 
+    Public Function UpdateGeneralRole(UserID As String) As IdentityResult
+        Try
+
+            Dim usr = FindById(UserID)
+            If usr IsNot Nothing AndAlso Not IsInRole(UserID, "General") Then
+                Return AddToRole(UserID, "General")
+            End If
+            Return IdentityResult.Success
+        Catch ex As Exception
+            Return New IdentityResult({ex.Message})
+        End Try
+    End Function
+
     Public Shared Function Create(options As IdentityFactoryOptions(Of ApplicationUserManager), context As IOwinContext) As ApplicationUserManager
         Dim manager = New ApplicationUserManager(New UserStore(Of ApplicationUser)(context.Get(Of ApplicationDbContext)()))
 
@@ -57,13 +70,15 @@ Public Class ApplicationUserManager
 
         ' Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
         ' You can write your own provider and plug it in here.
-        manager.RegisterTwoFactorProvider("Phone Code", New PhoneNumberTokenProvider(Of ApplicationUser) With {
-                                          .MessageFormat = "Your security code is {0}"
-                                      })
-        manager.RegisterTwoFactorProvider("Email Code", New EmailTokenProvider(Of ApplicationUser) With {
-                                          .Subject = "Security Code",
-                                          .BodyFormat = "Your security code is {0}"
-                                          })
+        'manager.RegisterTwoFactorProvider("Phone Code", New PhoneNumberTokenProvider(Of ApplicationUser) With {
+        '                                  .MessageFormat = "Your security code is {0}"
+        '                              })
+        'manager.RegisterTwoFactorProvider("Email Code", New EmailTokenProvider(Of ApplicationUser) With {
+        '                                  .Subject = "Security Code",
+        '                                  .BodyFormat = "Your security code is {0}"
+        '                                  })
+
+        manager.RegisterTwoFactorProvider("GoogleAuthenticator", New GoogleAuthProvider)
         manager.EmailService = New EmailService()
         manager.SmsService = New SmsService()
         Dim dataProtectionProvider = options.DataProtectionProvider
@@ -90,4 +105,29 @@ Public Class ApplicationSignInManager
     Public Shared Function Create(options As IdentityFactoryOptions(Of ApplicationSignInManager), context As IOwinContext) As ApplicationSignInManager
         Return New ApplicationSignInManager(context.GetUserManager(Of ApplicationUserManager)(), context.Authentication)
     End Function
+End Class
+
+Public Class ApplicationRoleManager
+    Inherits RoleManager(Of IdentityRole)
+    Public Sub New(store As IRoleStore(Of IdentityRole, String))
+        MyBase.New(store)
+    End Sub
+
+    Public Shared Function Create(options As IdentityFactoryOptions(Of ApplicationRoleManager), context As IOwinContext) As ApplicationRoleManager
+        Dim roleStore = New RoleStore(Of IdentityRole)(context.Get(Of ApplicationDbContext))
+
+        Dim manager As New ApplicationRoleManager(roleStore)
+
+        Dim NeededRoles As IdentityRole() = {New IdentityRole With {.Id = Guid.NewGuid.ToString("B"), .Name = "Admin"},
+                                       New IdentityRole With {.Id = Guid.NewGuid.ToString("B"), .Name = "General"}}
+
+        Dim ToCreate = From r In NeededRoles Where Not manager.RoleExists(r.Name)
+
+        For Each r In ToCreate
+            manager.Create(r)
+        Next
+
+        Return manager
+    End Function
+
 End Class

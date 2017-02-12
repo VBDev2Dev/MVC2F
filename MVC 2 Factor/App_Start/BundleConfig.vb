@@ -28,10 +28,12 @@ Public Module BundleConfig
                   "~/Scripts/bootstrap.js",
                   "~/Scripts/respond.js"))
 
+        bundles.Add(New ScriptBundle("~/bundles/SiteScripts").Include(
+                  "~/Scripts/SiteScripts/*.js"))
+
         bundles.Add(New StyleBundle("~/Content/css").Include(
                   "~/Content/bootstrap.css",
                   "~/Content/Site.css"'                  "~/Content/css/*.css"
                   ))
     End Sub
 End Module
-

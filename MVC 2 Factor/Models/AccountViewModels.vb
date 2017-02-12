@@ -1,4 +1,5 @@
 ﻿Imports System.ComponentModel.DataAnnotations
+Imports Microsoft.AspNet.Identity.Owin
 
 Public Class ExternalLoginConfirmationViewModel
     <Required>
@@ -20,13 +21,13 @@ End Class
 Public Class VerifyCodeViewModel
     <Required>
     Public Property Provider As String
-    
+
     <Required>
     <Display(Name:="Code")>
     Public Property Code As String
-    
+
     Public Property ReturnUrl As String
-    
+
     <Display(Name:="Remember this browser?")>
     Public Property RememberBrowser As Boolean
 
@@ -52,7 +53,17 @@ Public Class LoginViewModel
 
     <Display(Name:="Remember me?")>
     Public Property RememberMe As Boolean
+
+
+
 End Class
+Public Class LoginStatusViewModel
+    Property ReturnURL As String
+    Property Status As SignInStatus
+    Property Data As String
+    Property Lockout As DateTimeOffset
+End Class
+
 
 Public Class RegisterViewModel
     <Required>

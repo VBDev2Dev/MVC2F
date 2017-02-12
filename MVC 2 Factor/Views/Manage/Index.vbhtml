@@ -7,6 +7,8 @@ End Code
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
+    @Html.AntiForgeryToken()
+
     <h4>Change your account settings</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -27,32 +29,33 @@ End Code
         </dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
+
              See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
+
              Uncomment the following block after you have set up two-factor authentication
         *@
-        @* 
+        @*
             <dt>Phone Number:</dt>
             <dd>
-                @(If(Model.PhoneNumber, "None"))
+                @(If(Model.PhoneNumber, "None")) [
                 @If (Model.PhoneNumber <> Nothing) Then
-                    @<br />
-                    @<text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                    @Using Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, New With {.class = "form-horizontal", .role = "form"})
-                        @Html.AntiForgeryToken
-                        @<text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                    End Using
+                    @Html.ActionLink("Change", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Remove", "RemovePhoneNumber")
                 Else
-                    @<text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber") &nbsp;&nbsp;]</text>
+                    @Html.ActionLink("Add", "AddPhoneNumber")
                 End If
+                ]
             </dd>
         *@
         <dt>Two-Factor Authentication:</dt>
         <dd>
             <p>
-                There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                There are no two-factor authentication providers configured. See
+                <a href="http://go.microsoft.com/fwlink/?LinkId=403804">
+                    this article
+                </a>
                 for details on setting up this ASP.NET application to support two-factor authentication.
             </p>
             @*
@@ -73,7 +76,32 @@ End Code
                       </text>
                     End Using
                 End If
-	     *@
+            *@
+        </dd>
+        <dt>Google Authenticator:</dt>
+        <dd>
+            Google Authenticator Enabled: @Model.IsGoogleAuthenticatorEnabled
+            @If Model.IsGoogleAuthenticatorEnabled Then
+
+            @Html.ActionLink("[Disable]", "DisableGoogleAuthenticator")
+
+            Else
+
+            @Html.ActionLink("[Enable]", "EnableGoogleAuthenticator")
+            End If
+        </dd>
+
+        <dt>Admin Role:</dt>
+
+        <dd>
+
+            @If Model.IsAdmin Then
+                'TODO remove this in production
+            @<span>You are in the admin role</span>
+            Else
+            @Html.ActionLink("Add to Admin Role", "AddToAdmin", New With {.UserID = Model.UserID})
+            End If
+            <p class="alert alert-warning"> This is only for testing.  Will be removed in production</p>
         </dd>
     </dl>
 </div>

@@ -3,11 +3,16 @@ Imports Microsoft.AspNet.Identity
 Imports Microsoft.Owin.Security
 
 Public Class IndexViewModel
+    Public Property UserID As String
     Public Property HasPassword As Boolean
     Public Property Logins As IList(Of UserLoginInfo)
     Public Property PhoneNumber As String
     Public Property TwoFactor As Boolean
     Public Property BrowserRemembered As Boolean
+    Public Property AuthCode As String
+    Public Property IsGoogleAuthenticatorEnabled As Boolean
+    Public Property IsAdmin As Boolean
+
 End Class
 
 Public Class ManageLoginsViewModel
@@ -71,4 +76,18 @@ End Class
 Public Class ConfigureTwoFactorViewModel
     Public Property SelectedProvider As String
     Public Property Providers As ICollection(Of System.Web.Mvc.SelectListItem)
+End Class
+
+Public Class GoogleAuthenticatorViewModel
+    Property SetupCode As Google.Authenticator.SetupCode
+    <HiddenInput(DisplayValue:=False)>
+    Property SecretKey As String
+    Property Code As String = ""
+    Property IsGoogleAuthenticationEnabled As Boolean
+
+End Class
+
+Public Class AddAdminViewModel
+    Property UserID As String
+
 End Class
