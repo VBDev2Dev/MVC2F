@@ -16,6 +16,9 @@ Public Module BundleConfig
         bundles.Add(New StyleBundle("~/Content/themes/base/css").Include(
                     "~/Content/themes/base/all.css"))
 
+        bundles.Add(New StyleBundle("~/Content/themes/darkhive/css").Include(
+                    "~/Content/themes/dark-hive/jquery-ui.dark-hive.css"))
+
         bundles.Add(New ScriptBundle("~/bundles/jqueryval").Include(
                    "~/Scripts/jquery.validate*"))
 
