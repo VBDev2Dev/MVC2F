@@ -54,4 +54,11 @@ Module Extensions
         End Using
     End Function
 
+    <Extension>
+    Function AbsoluteContent(helper As UrlHelper, relPath As String) As String
+        Dim url As New Uri(HttpContext.Current.Request.Url, helper.Content(relPath))
+        Return url.AbsoluteUri
+    End Function
+
+
 End Module

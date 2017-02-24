@@ -83,13 +83,13 @@ Namespace Controllers
                 Await UserManager.ResetAccessFailedCountAsync(usr.Id)
 
             End If
-
+            Dim fullURL As String = Url.AbsoluteContent(returnUrl)
             Select Case result
                 Case SignInStatus.Success
 
-                    Return Json(New LoginStatusViewModel With {.ReturnURL = returnUrl, .Data = "", .Status = result})
+                    Return Json(New LoginStatusViewModel With {.ReturnURL = fullURL, .Data = "", .Status = result})
                 Case SignInStatus.LockedOut
-                    Return Json(New LoginStatusViewModel With {.ReturnURL = returnUrl, .Data = "", .Status = result, .Lockout = UserManager.GetLockoutEndDate(usr.Id)})
+                    Return Json(New LoginStatusViewModel With {.ReturnURL = fullURL, .Data = "", .Status = result, .Lockout = UserManager.GetLockoutEndDate(usr.Id)})
                 Case SignInStatus.RequiresVerification
 
                     If usr.IsGoogleAuthenticatorEnabled Then
@@ -100,7 +100,7 @@ Namespace Controllers
                         '                                       .RememberBrowser = False})
 
                         Return Json(New LoginStatusViewModel With {
-                                    .ReturnURL = returnUrl,
+                                    .ReturnURL = fullURL,
                                     .Data = Json(New With {.Provider = "google"}).ToString,
                                     .Status = result})
 
@@ -110,12 +110,12 @@ Namespace Controllers
                         '.ReturnUrl = returnUrl,
                         '.RememberMe = model.RememberMe
 
-                        Return Json(New LoginStatusViewModel With {.ReturnURL = returnUrl, .Data = Json(New With {.Provider = "SendCode"}).ToString, .Status = result})
+                        Return Json(New LoginStatusViewModel With {.ReturnURL = fullURL, .Data = Json(New With {.Provider = "SendCode"}).ToString, .Status = result})
 
                     End If
 
                 Case Else
-                    Return Json(New LoginStatusViewModel With {.ReturnURL = returnUrl, .Data = "", .Status = SignInStatus.Failure})
+                    Return Json(New LoginStatusViewModel With {.ReturnURL = fullURL, .Data = "", .Status = SignInStatus.Failure})
 
             End Select
         End Function
@@ -130,7 +130,7 @@ Namespace Controllers
             End If
             Return View(New VerifyCodeViewModel() With {
                 .Provider = provider,
-                .ReturnUrl = returnUrl,
+                .ReturnUrl = Url.AbsoluteContent(returnUrl),
                 .RememberMe = rememberMe
             })
         End Function
@@ -150,13 +150,15 @@ Namespace Controllers
             ' will be locked out for a specified amount of time.
             ' You can configure the account lockout settings in IdentityConfig
             Dim result = Await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:=model.RememberMe, rememberBrowser:=model.RememberBrowser)
+
+            Dim fullURL As String = Url.AbsoluteContent(model.ReturnUrl)
             Select Case result
                 Case SignInStatus.Success
-                    Return Json(New With {.Success = True, .returnUrl = model.ReturnUrl, .Message = ""})
+                    Return Json(New With {.Success = True, .returnUrl = fullURL, .Message = ""})
                 Case SignInStatus.LockedOut
-                    Return Json(New With {.Success = False, .returnUrl = model.ReturnUrl, .Message = "Locked Out"})
+                    Return Json(New With {.Success = False, .returnUrl = fullURL, .Message = "Locked Out"})
                 Case Else
-                    Return Json(New With {.Success = False, .returnUrl = model.ReturnUrl, .Message = "Invalid Code"})
+                    Return Json(New With {.Success = False, .returnUrl = fullURL, .Message = "Invalid Code"})
             End Select
         End Function
 

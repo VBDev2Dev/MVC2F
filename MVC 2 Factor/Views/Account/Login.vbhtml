@@ -93,7 +93,7 @@ End Code
             switch (loginResult["Status"]) {
                 case 0:
                     //success
-                    window.location = loginResult["ReturnUrl"];
+                    window.location.replace( loginResult["ReturnURL"]);
                     break;
                 case 1:
                     //lockout
