@@ -28,6 +28,7 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Test Secure", "TestSecure", "Home", Nothing, New With {.title = "Must be logged in to view"})</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

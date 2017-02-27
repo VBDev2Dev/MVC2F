@@ -16,4 +16,8 @@
 
         Return View()
     End Function
+    <Authorize>
+    Function TestSecure() As ActionResult
+        Return View()
+    End Function
 End Class
