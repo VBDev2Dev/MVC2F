@@ -1,14 +1,15 @@
-﻿@ModelType GoogleAuthenticatorViewModel
+﻿@Imports MVC_2_Factor.My.Resources
+@ModelType GoogleAuthenticatorViewModel
 
 @Code
-    ViewData("Title") = "EnableGoogleAuthenticator"
+    ViewData("Title") = "Enable Google Authenticator"
 End Code
 
 <h2>EnableGoogleAuthenticator</h2>
 
 <div class="row">
     <div class="col-md-8">
-        <h3>1. Add License Manager to Google Authenticator</h3>
+        <h3>1. Add @AppName to Google Authenticator</h3>
         <p>Open Google Authenticator and add License Manager by scanning the QR Code to the right.</p>
         <h3>2. Enter the 6 digit code that Google Authenticator generates</h3>
         <p>

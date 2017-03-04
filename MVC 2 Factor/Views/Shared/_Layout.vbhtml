@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@Imports MVC_2_Factor.My.Resources
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - @AppName</title>
     @Styles.Render("~/Content/themes/base/css")
     @Styles.Render("~/Content/themes/darkhive/css")
     @Styles.Render("~/Content/css")
@@ -52,7 +54,7 @@
             @RenderBody()
         </div>
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - @AppName</p>
         </footer>
     </div>
     @RenderSection("scripts", required:=False)
