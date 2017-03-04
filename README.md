@@ -1,3 +1,5 @@
+**REBASED** on **3/4/2017**.
+
 # MVC2F
 Shows how to use an authenticator with your mvc app.
 
